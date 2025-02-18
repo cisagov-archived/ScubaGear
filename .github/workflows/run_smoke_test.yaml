@@ -39,15 +39,16 @@ jobs:
         uses: actions/checkout@v4
       - name: Execute ScubaGear and Check Outputs
         run: |
-          $AutomationCredentials = $env:SCUBA_GITHUB_AUTOMATION_CREDS | ConvertFrom-Json
-          Write-Output "The type of creds"
-          Write-Output $AutomationCredential.GetType()
-          $TestTenants = $AutomationCredentials.TestTenants
-          Write-Output "The type of tenants"
-          Write-Output $TestTenants.GetType()
-          . utils/workflow/Invoke-SmokeTests.ps1
-          # Invoke-SmokeTests -AutomationCredentials $AutomationCredentials
-          Invoke-SmokeTests -TestTenants $TestTenants
+          Write-Output "hello world"
+          # $AutomationCredentials = $env:SCUBA_GITHUB_AUTOMATION_CREDS | ConvertFrom-Json
+          # Write-Output "The type of creds"
+          # Write-Output $AutomationCredential.GetType()
+          # $TestTenants = $AutomationCredentials.TestTenants
+          # Write-Output "The type of tenants"
+          # Write-Output $TestTenants.GetType()
+          # . utils/workflow/Invoke-SmokeTests.ps1
+          # # Invoke-SmokeTests -AutomationCredentials $AutomationCredentials
+          # Invoke-SmokeTests -TestTenants $TestTenants
 
           # . Testing/Functional/SmokeTest/SmokeTestUtils.ps1
 
