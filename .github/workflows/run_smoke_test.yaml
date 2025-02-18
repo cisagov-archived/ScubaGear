@@ -14,7 +14,7 @@ on:
     push:
         paths:
             - ".github/workflows/run_smoke_test.yaml"
-            - "utils/Invoke-SmokeTests.ps1"
+            - "utils/workflow/Invoke-SmokeTests.ps1"
         branches:
             - "main"
             - "*smoke*"
