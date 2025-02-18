@@ -14,6 +14,7 @@ on:
   push:
     paths:
       - ".github/workflows/run_smoke_test.yaml"
+      - "utils/Invoke-SmokeTests.ps1"
     branches:
       - "main"
       - "*smoke*"
@@ -40,7 +41,7 @@ jobs:
         run: |
           $AutomationCredentials = $env:SCUBA_GITHUB_AUTOMATION_CREDS | ConvertFrom-Json
           . utils/workflow/Invoke-SmokeTests.ps1
-          Invoke-SmokeTests $AutomationCredentials
+          Invoke-SmokeTests -AutomationCredentials $AutomationCredentials
 
           # . Testing/Functional/SmokeTest/SmokeTestUtils.ps1
 

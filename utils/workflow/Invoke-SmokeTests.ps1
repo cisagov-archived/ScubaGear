@@ -14,15 +14,17 @@ function Invoke-SmokeTests {
 
   Write-Warning "Invoking smoke tests..."
 
-  . Testing/Functional/SmokeTest/SmokeTestUtils.ps1
-
-  ##### Install all the dependencies
-  Install-SmokeTestExternalDependencies
+  # Install Selenium
+  # . Testing/Functional/SmokeTest/SmokeTestUtils.ps1
+  # Install-SmokeTestExternalDependencies
+  # Note this is dupe code with this:
+  . utils/workflow/Install-SeleniumForTesting.ps1
+  Install-SeleniumForTesting
   Import-Module -Name .\PowerShell\ScubaGear\ScubaGear.psd1
   Initialize-SCuBA
 
   # Workaround for Selenium. Loading psm1 instead of psd1
-  Import-Module -Name (Get-Module -Name Selenium -ListAvailable).Path -Force
+  # Import-Module -Name (Get-Module -Name Selenium -ListAvailable).Path -Force
 
   # ScubaGear currently requires the provisioning of a certificate for using a ServicePrinicpal, rather than
   # using Workload Identity Federation, which would ordinarily be preferred for calling Microsoft APIs from
