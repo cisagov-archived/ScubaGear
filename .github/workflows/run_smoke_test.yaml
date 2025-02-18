@@ -40,8 +40,8 @@ jobs:
       - name: Execute ScubaGear and Check Outputs
         run: |
           Write-Output "hello world"
-          # $AutomationCredentials = $env:SCUBA_GITHUB_AUTOMATION_CREDS | ConvertFrom-Json
-          # Write-Output "The type of creds"
+          $AutomationCredentials = $env:SCUBA_GITHUB_AUTOMATION_CREDS | ConvertFrom-Json
+          Write-Output "The type of creds"
           # Write-Output $AutomationCredential.GetType()
           # $TestTenants = $AutomationCredentials.TestTenants
           # Write-Output "The type of tenants"
