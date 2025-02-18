@@ -15,8 +15,8 @@ function Invoke-SmokeTests {
     Write-Warning "Invoking smoke tests..."
     Write-Warning "Identified $($TestTenants.Count) test tenants..."
 
-    # Install Selenium
-    # . Testing/Functional/SmokeTest/SmokeTestUtils.ps1
+    # Access certificate functions
+    . Testing/Functional/SmokeTest/SmokeTestUtils.ps1
     # Install-SmokeTestExternalDependencies
     # Note this is dupe code with this:
     . utils/workflow/Install-SeleniumForTesting.ps1
