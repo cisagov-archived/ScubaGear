@@ -2,14 +2,17 @@ function Invoke-SmokeTests {
   <#
     .SYNOPSIS
       Runs the smoke tests for ScubaGear
-    .PARAMETER $AutomationCredentials
-      The credentials required to log into various test M365 tenants.
+    # .PARAMETER AutomationCredentials
+    #   The credentials required to log into various test M365 tenants.
+    .PARAMETER TestTenants
+      Tenant info
   #>
   [CmdletBinding()]
   param(
     [Parameter(Mandatory = $true)]
     [string]
-    $AutomationCredentials
+    # $AutomationCredentials
+    $TestTenant
   )
 
   Write-Warning "Invoking smoke tests..."
@@ -20,6 +23,7 @@ function Invoke-SmokeTests {
   # Note this is dupe code with this:
   . utils/workflow/Install-SeleniumForTesting.ps1
   Install-SeleniumForTesting
+  # Install ScubaGear modules
   Import-Module -Name .\PowerShell\ScubaGear\ScubaGear.psd1
   Initialize-SCuBA
 
