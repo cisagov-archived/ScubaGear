@@ -3,7 +3,7 @@ function Invoke-SmokeTests {
         .SYNOPSIS
             Runs the smoke tests for ScubaGear
         .PARAMETER TestTenants
-            Tenant info
+            Info on the tenants against which the smoke tests are conducted. info
     #>
     [CmdletBinding()]
     param(
@@ -31,12 +31,13 @@ function Invoke-SmokeTests {
     # ScubaGear currently requires the provisioning of a certificate for using a ServicePrinicpal, rather than
     # using Workload Identity Federation, which would ordinarily be preferred for calling Microsoft APIs from
     # GitHub actions.
-    $TestContainers = @()
-    ForEach ($TestTenantObj in $TestTenants){
+    # $TestContainers = @()
+    ForEach ($TestTenantObj in $TestTenants) {
+        $TestContainers = @()
         $Properties = Get-Member -InputObject $TestTenantObj -MemberType NoteProperty
         $TestTenant = $TestTenantObj | Select-Object -ExpandProperty $Properties.Name
         $OrgName = $TestTenant.DisplayName
-        Write-Warning "The org name is $OrgName"
+        Write-Warning "Testing tenant $OrgName"
         $DomainName = $TestTenant.DomainName
         $AppId = $TestTenant.AppId
         $PlainTextPassword = $TestTenant.CertificatePassword
@@ -53,10 +54,12 @@ function Invoke-SmokeTests {
             $TestContainers += New-PesterContainer `
                 -Path "Testing/Functional/SmokeTest/SmokeTest002.Tests.ps1" `
                 -Data @{ OrganizationDomain = $DomainName; OrganizationName = $OrgName }
+            # Run the smoke tests just for this tenant.
             Invoke-Pester -Container $TestContainers -Output Detailed
+            Remove-MyCertificates
         }
         catch {
-            Write-Warning "Failed to install certificate for $OrgName"
+            Write-Warning "Failed to install certificate for $OrgName because..."
             Write-Warning $_
         }
 
@@ -70,5 +73,5 @@ function Invoke-SmokeTests {
 
     # Invoke-Pester -Container $TestContainers -Output Detailed
 
-    Remove-MyCertificates
+    # Remove-MyCertificates
 }
