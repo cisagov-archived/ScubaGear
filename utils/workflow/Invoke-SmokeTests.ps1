@@ -8,7 +8,7 @@ function Invoke-SmokeTests {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory = $true)]
-        [string]
+        [array]
         $TestTenants
     )
 
