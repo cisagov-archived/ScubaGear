@@ -22,8 +22,8 @@ function Invoke-SmokeTests {
     . utils/workflow/Install-SeleniumForTesting.ps1
     Install-SeleniumForTesting
     # Install ScubaGear modules
-    # Import-Module -Name .\PowerShell\ScubaGear\ScubaGear.psd1
-    # Initialize-SCuBA
+    Import-Module -Name .\PowerShell\ScubaGear\ScubaGear.psd1
+    Initialize-SCuBA
 
     # Workaround for Selenium. Loading psm1 instead of psd1
     # Import-Module -Name (Get-Module -Name Selenium -ListAvailable).Path -Force
@@ -47,21 +47,28 @@ function Invoke-SmokeTests {
                 -EncodedCertificate $TestTenant.CertificateB64 `
                 -CertificatePassword $CertPwd
             $Thumbprint = $Result[-1]
+            $TestContainers += New-PesterContainer `
+                -Path "Testing/Functional/SmokeTest/SmokeTest001.Tests.ps1" `
+                -Data @{ Thumbprint = $Thumbprint; Organization = $DomainName; AppId = $AppId; M365Environment = $M365Env }
+            $TestContainers += New-PesterContainer `
+                -Path "Testing/Functional/SmokeTest/SmokeTest002.Tests.ps1" `
+                -Data @{ OrganizationDomain = $DomainName; OrganizationName = $OrgName }
+            Invoke-Pester -Container $TestContainers -Output Detailed
         }
         catch {
             Write-Warning "Failed to install certificate for $OrgName"
             Write-Warning $_
         }
 
-        $TestContainers += New-PesterContainer `
-            -Path "Testing/Functional/SmokeTest/SmokeTest001.Tests.ps1" `
-            -Data @{ Thumbprint = $Thumbprint; Organization = $DomainName; AppId = $AppId; M365Environment = $M365Env }
-        $TestContainers += New-PesterContainer `
-            -Path "Testing/Functional/SmokeTest/SmokeTest002.Tests.ps1" `
-            -Data @{ OrganizationDomain = $DomainName; OrganizationName = $OrgName }
+        # $TestContainers += New-PesterContainer `
+        #     -Path "Testing/Functional/SmokeTest/SmokeTest001.Tests.ps1" `
+        #     -Data @{ Thumbprint = $Thumbprint; Organization = $DomainName; AppId = $AppId; M365Environment = $M365Env }
+        # $TestContainers += New-PesterContainer `
+        #     -Path "Testing/Functional/SmokeTest/SmokeTest002.Tests.ps1" `
+        #     -Data @{ OrganizationDomain = $DomainName; OrganizationName = $OrgName }
     }
 
     # Invoke-Pester -Container $TestContainers -Output Detailed
 
-    # Remove-MyCertificates
+    Remove-MyCertificates
 }
