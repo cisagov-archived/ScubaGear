@@ -1,9 +1,9 @@
 function Invoke-SmokeTests {
     <#
         .SYNOPSIS
-        Runs the smoke tests for ScubaGear
+            Runs the smoke tests for ScubaGear
         .PARAMETER TestTenants
-        Tenant info
+            Tenant info
     #>
     [CmdletBinding()]
     param(
