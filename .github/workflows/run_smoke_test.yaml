@@ -43,6 +43,5 @@ jobs:
           $TestTenants = $AutomationCredentials.TestTenants
           Write-Output "The length of tenants"
           Write-Output $TestTenants.Length
-          # . utils/workflow/Invoke-SmokeTests.ps1
-          # # Invoke-SmokeTests -AutomationCredentials $AutomationCredentials
-          # Invoke-SmokeTests -TestTenants $TestTenants
+          . utils/workflow/Invoke-SmokeTests.ps1
+          Invoke-SmokeTests -TestTenants $TestTenants
