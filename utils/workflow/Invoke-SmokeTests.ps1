@@ -14,6 +14,10 @@ function Invoke-SmokeTests {
 
     Write-Warning "Invoking smoke tests..."
 
+    Write-Output "The length of tenants"
+    Write-Output $TestTenants.Length
+    Write-Warning "Identified $($TestTenants.Count) Test Tenants"
+
     # Install Selenium
     # . Testing/Functional/SmokeTest/SmokeTestUtils.ps1
     # Install-SmokeTestExternalDependencies
