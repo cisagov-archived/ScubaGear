@@ -22,8 +22,8 @@ function Invoke-SmokeTests {
     . utils/workflow/Install-SeleniumForTesting.ps1
     Install-SeleniumForTesting
     # Install ScubaGear modules
-    Import-Module -Name .\PowerShell\ScubaGear\ScubaGear.psd1
-    Initialize-SCuBA
+    # Import-Module -Name .\PowerShell\ScubaGear\ScubaGear.psd1
+    # Initialize-SCuBA
 
     # Workaround for Selenium. Loading psm1 instead of psd1
     # Import-Module -Name (Get-Module -Name Selenium -ListAvailable).Path -Force
@@ -50,6 +50,7 @@ function Invoke-SmokeTests {
         }
         catch {
             Write-Warning "Failed to install certificate for $OrgName"
+            Write-Warning $_
         }
 
         $TestContainers += New-PesterContainer `
