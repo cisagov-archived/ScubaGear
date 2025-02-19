@@ -69,7 +69,8 @@ function Remove-NonReleaseFiles {
     .SYNOPSIS
       Removes files from the repo that should not be published, such at git files.
   #>
-  Remove-Item -Recurse -Force repo -Include .git*
+  Get-Location
+  Remove-Item -Recurse -Force * -Include .git*
 }
 
 function Publish-ScubaGearModule {
