@@ -6,6 +6,7 @@ function Invoke-SmokeTests {
             Info about the tenants against which the smoke tests are conducted.
     #>
     [CmdletBinding()]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingConvertToSecureStringWithPlainText', '')]
     param(
         [Parameter(Mandatory = $true)]
         [array]
@@ -38,7 +39,6 @@ function Invoke-SmokeTests {
         $AppId = $TestTenant.AppId
         $PlainTextPassword = $TestTenant.CertificatePassword
         # This is not high risk because this code is only running on an ephemeral runner.
-        [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingConvertToSecureStringWithPlainText", "")]
         $CertPwd = ConvertTo-SecureString -String $PlainTextPassword -Force -AsPlainText
         $M365Env = $TestTenant.M365Env
         try {
