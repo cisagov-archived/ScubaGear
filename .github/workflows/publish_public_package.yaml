@@ -67,8 +67,7 @@ jobs:
       - name: Sign and Publish Module
         run: |
           . repo/utils/workflow/Publish-ScubaGear.ps1
-          # Remove non-release files
-          Remove-Item -Recurse -Force repo -Include .git*
+          Remove-NonReleaseFiles
           # Extract the API key used to publish to PSGallery
           $ApiKey = az keyvault secret show --id '${{ steps.key-vault-info.outputs.KeyVaultUrl }}/secrets/ScubaGear-PSGAllery-API-Key' --query value -o tsv
           if (-Not $ApiKey)

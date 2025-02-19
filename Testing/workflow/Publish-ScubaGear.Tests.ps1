@@ -12,6 +12,14 @@ BeforeAll {
   $global:ModuleDestinationPath = ""
 }
 
+Describe "Remove-NonReleaseFiles" {
+  It "removes the files in the .git folder" {
+    $Before = Test-Path .git | Should -Be $true
+    Remove-NonReleaseFiles
+    $After = Test-Path .git | Should -Be $false
+  }
+}
+
 Describe "Copy-ModuleToTempLocation" {
   It "copies the ScubaGear module to the specified location" {
     $Location = Get-Location
