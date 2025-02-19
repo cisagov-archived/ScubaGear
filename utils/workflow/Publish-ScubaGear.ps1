@@ -64,6 +64,52 @@ function New-PrivateGallery {
   Write-Output "The gallery was registered..."
 }
 
+function Initialize-PublishToPrivateGallery {
+  <#
+    .SYNOPSIS
+      Setup the parameters required to publish ScubaGear to a private gallery
+    .Parameter AzureKeyVaultUrl
+      The URL of the key vault with the code signing certificate
+    .Parameter CertificateName
+      The name of the code signing certificate
+    .Parameter ModulePath
+      Path to module root directory
+    .Parameter GalleryName
+      Name of the private package repository (i.e., gallery)
+  #>
+  param (
+    Parameter(Mandatory = $true)]
+    [ValidateScript({ [uri]::IsWellFormedUriString($_, 'Absolute') -and ([uri] $_).Scheme -in 'https' })]
+    [System.Uri]
+    $AzureKeyVaultUrl,
+    [Parameter(Mandatory = $true)]
+    [ValidateNotNullOrEmpty()]
+    [string]
+    $CertificateName,
+    [Parameter(Mandatory = $true)]
+    [ValidateScript({ Test-Path -Path $_ -PathType Container })]
+    [string]
+    $ModuleSourcePath,
+    [Parameter(Mandatory = $false)]
+    [ValidateNotNullOrEmpty()]
+    [string]
+    $GalleryName = 'PrivateScubaGearGallery'
+  )
+  # Remove non-release files
+  Remove-Item -Recurse -Force repo -Include .git*
+  # Setup the parameters
+  $Parameters = @{
+    AzureKeyVaultUrl = $AzureKeyVaultUrl
+    CertificateName = $CertificateName
+    ModuleSourcePath = $ModuleSourcePath
+    GalleryName = $GalleryName
+  }
+  # This publishes to a private gallery, from which we will pull in a future step.
+  # This step helps us verify that ScubaGear is in a state where it can be
+  # published to PSGallery.
+  Publish-ScubaGearModule @Parameters
+}
+
 function Publish-ScubaGearModule {
   <#
     .Description
