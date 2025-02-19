@@ -37,7 +37,8 @@ function Invoke-SmokeTests {
         $DomainName = $TestTenant.DomainName
         $AppId = $TestTenant.AppId
         $PlainTextPassword = $TestTenant.CertificatePassword
-        $CertPwd = ConvertTo-SecureString -String $PlainTextPassword -Force -AsPlainText
+        # $CertPwd = ConvertTo-SecureString -String $PlainTextPassword -Force -AsPlainText
+        $CertPwd = $PlainTextPassword | ConvertTo-SecureString
         $M365Env = $TestTenant.M365Env
         try {
             $Result = New-ServicePrincipalCertificate `
