@@ -37,7 +37,7 @@ jobs:
         steps:
             - name: Checkout repo code
               uses: actions/checkout@v4
-            - name: Execute ScubaGear and Check Outputs
+            - name: Execute tests
               run: |
                 $AutomationCredentials = $env:SCUBA_GITHUB_AUTOMATION_CREDS | ConvertFrom-Json
                 $TestTenants = $AutomationCredentials.TestTenants

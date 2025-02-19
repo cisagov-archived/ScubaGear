@@ -37,6 +37,8 @@ function Invoke-SmokeTests {
         $DomainName = $TestTenant.DomainName
         $AppId = $TestTenant.AppId
         $PlainTextPassword = $TestTenant.CertificatePassword
+        # This is not high risk because this code is only running on an ephemeral runner.
+        [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingConvertToSecureStringWithPlainText", "")]
         $CertPwd = ConvertTo-SecureString -String $PlainTextPassword -Force -AsPlainText
         $M365Env = $TestTenant.M365Env
         try {
