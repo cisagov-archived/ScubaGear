@@ -78,7 +78,7 @@ function Initialize-PublishToPrivateGallery {
       Name of the private package repository (i.e., gallery)
   #>
   param (
-    Parameter(Mandatory = $true)]
+    [Parameter(Mandatory = $true)]
     [ValidateScript({ [uri]::IsWellFormedUriString($_, 'Absolute') -and ([uri] $_).Scheme -in 'https' })]
     [System.Uri]
     $AzureKeyVaultUrl,
