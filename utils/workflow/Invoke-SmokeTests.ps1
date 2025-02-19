@@ -27,12 +27,13 @@ function Invoke-SmokeTests {
     # ScubaGear currently requires the provisioning of a certificate for using a ServicePrinicpal, rather than
     # using Workload Identity Federation, which would ordinarily be preferred for calling Microsoft APIs from
     # GitHub actions.
+    $index = 1
     ForEach ($TestTenantObj in $TestTenants) {
         $TestContainers = @()
         $Properties = Get-Member -InputObject $TestTenantObj -MemberType NoteProperty
         $TestTenant = $TestTenantObj | Select-Object -ExpandProperty $Properties.Name
         $OrgName = $TestTenant.DisplayName
-        Write-Warning "Testing tenant $OrgName..."
+        Write-Warning "Testing tenant $index..."
         $DomainName = $TestTenant.DomainName
         $AppId = $TestTenant.AppId
         $PlainTextPassword = $TestTenant.CertificatePassword
@@ -57,5 +58,6 @@ function Invoke-SmokeTests {
             Write-Warning "Failed to install certificate for $OrgName because..."
             Write-Warning $_
         }
+        $index = $index + 1
     }
 }
