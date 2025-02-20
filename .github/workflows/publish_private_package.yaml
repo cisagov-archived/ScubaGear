@@ -67,6 +67,7 @@ jobs:
       - name: Sign and Publish Module
         run: |
             . repo/utils/workflow/Publish-ScubaGear.ps1
+            # TODO THIS IS NOT WORKING. SEE WORKFLOW UNIT TESTS.
             Remove-NonReleaseFiles
             # Setup the parameters
             $Parameters = @{
