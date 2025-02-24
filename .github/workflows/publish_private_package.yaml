@@ -80,7 +80,7 @@ jobs:
           # This step helps us verify that ScubaGear is in a state where it can be
           # published to PSGallery.
           Publish-ScubaGearModule @Parameters
-    - name: Test Module Publish
+      - name: Test Module Publish
         run: |
           Get-Location
           $TestContainers = @()
