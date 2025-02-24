@@ -1,5 +1,5 @@
 # Purpose: Publishes ScubaGear to a private repo and caches ScubaGear modules and OPA for reuse.
-# Note: To test this workflow, run the nightly tests.
+# Note: To test this workflow, run the functional tests.
 
 name: Publish Private Package
 
@@ -102,7 +102,8 @@ jobs:
           . repo/utils/workflow/Initialize-ScubaGearForTesting.ps1
           Initialize-ScubaGearForTesting
           # This is a manual test that simply writes the version to the console.
-          $ExpectedVersion = '${{ steps.sign-and-publish-module.ModuleVersion }}'
+          $ManifestFilePath = Join-Path -Path "repo\PowerShell\ScubaGear" -ChildPath "ScubaGear.psd1"
+          $ExpectedVersion = (Import-PowerShellDataFile $ManifestFilePath).ModuleVersion
           Write-Output "The expected version is $ExpectedVersion"
           $ActualVersion = Invoke-SCuBA -Version
           Write-Output "The actual version is $ActualVersion"
