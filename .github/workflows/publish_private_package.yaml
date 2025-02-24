@@ -101,13 +101,18 @@ jobs:
           Install-Module -Name ScubaGear -Repository $env:GalleryName -SkipPublisherCheck
           . repo/utils/workflow/Initialize-ScubaGearForTesting.ps1
           Initialize-ScubaGearForTesting
-          # This is a manual test that simply writes the version to the console.
           $ManifestFilePath = Join-Path -Path "repo\PowerShell\ScubaGear" -ChildPath "ScubaGear.psd1"
           $ExpectedVersion = (Import-PowerShellDataFile $ManifestFilePath).ModuleVersion
-          Write-Output "The expected version is $ExpectedVersion"
+          Write-Output "The expected version should start with $ExpectedVersion"
           $ActualVersion = Invoke-SCuBA -Version
           Write-Output "The actual version is $ActualVersion"
-          Test-Path -Path "C:\Program Files\WindowsPowerShell\Modules\ScubaGear"
+          if ($ActualVersion -notmatch $ExpectedVersion) {
+            Write-Output "::error::The module version should contain with $ExpectedVersion"
+            exit 1
+          }
+          if (Test-Path -Path "C:\Program Files\WindowsPowerShell\Modules\ScubaGear" -ne $true) {
+            Write-Output "::error::ScubaGear was not installed into the correct version."
+          }
       - name: Install Selenium
         run: |
           . repo/utils/workflow/Install-SeleniumForTesting.ps1
