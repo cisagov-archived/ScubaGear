@@ -141,7 +141,7 @@ function Publish-ScubaGearModule {
     -ModuleTempPath $env:TEMP
 
     Write-Output "Editing the manifest file..."
-    Edit-ManifestFile `
+    $ModuleVersion = Edit-ManifestFile `
     -ModuleDestinationPath $ModuleDestinationPath `
     -OverrideModuleVersion $OverrideModuleVersion `
     -PrereleaseTag $PrereleaseTag
@@ -193,6 +193,7 @@ function Publish-ScubaGearModule {
     Write-Error "An error occurred when publishing ScubaGear.  Exiting..."
     exit 1
   }
+  return $ModuleVersion
 }
 
 function Copy-ModuleToTempLocation {
@@ -331,6 +332,7 @@ function Edit-ManifestFile {
     Write-Error = $ErrorMessage
     throw $ErrorMessage
   }
+  return $ModuleVersion
 }
 
 function New-ArrayOfFilePaths {
