@@ -102,7 +102,10 @@ jobs:
           . repo/utils/workflow/Initialize-ScubaGearForTesting.ps1
           Initialize-ScubaGearForTesting
           # This is a manual test that simply writes the version to the console.
-          Invoke-SCuBA -Version
+          $ExpectedVersion = '${{ steps.sign-and-publish-module.ModuleVersion }}'
+          Write-Output "The expected version is $ExpectedVersion"
+          $ActualVersion = Invoke-SCuBA -Version
+          Write-Output "The actual version is $ActualVersion"
           Test-Path -Path "C:\Program Files\WindowsPowerShell\Modules\ScubaGear"
       - name: Install Selenium
         run: |
