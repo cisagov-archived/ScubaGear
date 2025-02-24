@@ -103,14 +103,15 @@ jobs:
           Initialize-ScubaGearForTesting
           $ManifestFilePath = Join-Path -Path "repo\PowerShell\ScubaGear" -ChildPath "ScubaGear.psd1"
           $ExpectedVersion = (Import-PowerShellDataFile $ManifestFilePath).ModuleVersion
-          Write-Output "The expected version should start with $ExpectedVersion"
+          Write-Output "The expected version should  contain $ExpectedVersion"
           $ActualVersion = Invoke-SCuBA -Version
           Write-Output "The actual version is $ActualVersion"
           if ($ActualVersion -notmatch $ExpectedVersion) {
             Write-Output "::error::The module version should contain with $ExpectedVersion"
             exit 1
           }
-          if (Test-Path -Path "C:\Program Files\WindowsPowerShell\Modules\ScubaGear" -ne $true) {
+          $PathExists = Test-Path -Path "C:\Program Files\WindowsPowerShell\Modules\ScubaGear"
+          if ($PathExists -ne $true) {
             Write-Output "::error::ScubaGear was not installed into the correct version."
           }
       - name: Install Selenium
