@@ -68,7 +68,7 @@ jobs:
         run: |
           . repo/utils/workflow/Publish-ScubaGear.ps1
           # TODO THIS IS NOT WORKING. SEE WORKFLOW UNIT TESTS.
-          Remove-NonReleaseFiles
+          Remove-NonReleaseFiles -RootFolderName "repo"
           # Setup the parameters
           $Parameters = @{
             AzureKeyVaultUrl = '${{ steps.key-vault-info.outputs.KeyVaultUrl }}'

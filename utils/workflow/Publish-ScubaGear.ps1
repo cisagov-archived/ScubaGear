@@ -68,11 +68,17 @@ function Remove-NonReleaseFiles {
   <#
     .SYNOPSIS
       Removes files from the repo that should not be published, such at git files.
+    .PARAMETER $RootFolderName
+      The name of the root folder.
   #>
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory = $true)]
+    [string]
+    $RootFolderName
+  )
   Write-Output "Removing non-release files..."
-  $Location = Get-Location
-  Write-Output $Location
-  Remove-Item -Recurse -Force $Location -Include .git*
+  Remove-Item -Recurse -Force $RootFolderName -Include .git*
 }
 
 function Publish-ScubaGearModule {
