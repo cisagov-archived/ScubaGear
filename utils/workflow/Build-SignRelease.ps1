@@ -46,7 +46,7 @@ function New-ModuleSignature {
   . $PublishPath
 
   # Remove non-release files, like the .git dir, required for non-Windows machines
-  Remove-Item -Recurse -Force $RootFolderName -Include .git*
+  Remove-NonReleaseFiles -RootFolderName $RootFolderName
   Write-Warning "Creating an array of the files to sign..."
   $ArrayOfFilePaths = New-ArrayOfFilePaths `
     -ModuleDestinationPath $RootFolderName
