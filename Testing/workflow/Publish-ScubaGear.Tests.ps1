@@ -14,8 +14,12 @@ BeforeAll {
 
 Describe "Remove-NonReleaseFiles" {
   It "removes the files in the .git folder" {
+    $Location = Get-Location
+    Write-Warning "The location is $Location"
+    Write-Warning "Listing all files here:"
+    Get-ChildItem -Path $Location -Force
     Test-Path .git | Should -Be $true
-    Remove-NonReleaseFiles -RootFolderName .
+    Remove-NonReleaseFiles -RootFolderName $Location
     Test-Path .git | Should -Be $false
   }
 }
