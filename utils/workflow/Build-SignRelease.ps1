@@ -45,8 +45,9 @@ function New-ModuleSignature {
   $PublishPath = Join-Path -Path $PSScriptRoot -ChildPath '..\..\utils\workflow\Publish-ScubaGear.ps1' -Resolve
   . $PublishPath
 
+  # TODO Update and test with new function in utils/workflow
   # Remove non-release files, like the .git dir, required for non-Windows machines
-  Remove-NonReleaseFiles -RootFolderName $RootFolderName
+  Remove-Item -Recurse -Force $RootFolderName -Include .git*
   Write-Warning "Creating an array of the files to sign..."
   $ArrayOfFilePaths = New-ArrayOfFilePaths `
     -ModuleDestinationPath $RootFolderName
