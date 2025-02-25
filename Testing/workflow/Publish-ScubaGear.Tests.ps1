@@ -18,7 +18,7 @@ Describe "Remove-NonReleaseFiles" {
     Write-Warning "The location is $Location"
     # Write-Warning "Listing all files here:"
     # Get-ChildItem -Path $Location -Force
-    # $ModuleSourcePath = Join-Path -Path $Location -ChildPath "/PowerShell/ScubaGear"
+    $ModuleSourcePath = Join-Path -Path $Location -ChildPath "/PowerShell/ScubaGear"
     # Write-Warning "The module location is $ModuleSourcePath"
     $TheTempLocation = $env:TEMP
     Write-Warning "The temp location is $TheTempLocation"
