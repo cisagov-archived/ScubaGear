@@ -14,17 +14,19 @@ BeforeAll {
 
 Describe "Remove-NonReleaseFiles" {
   It "removes the files in the .git folder" {
-    $Location = Get-Location
+    $CurrentLocation = Get-Location
     Write-Warning "The location is $Location"
+    $TempLocation = Join-Path -Path $CurrentLocation -ChildPath "/tempfolder"
+    $GitLocation = Join-Path -Path $TempLocation -ChildPath ".git"
+    $TestFileLocation = Join-Path -Path $GitLocation -ChildPath "test.txt"
     # Create a dummy .git directory
-    New-Item -ItemType "directory" -Path ".git"
+    New-Item -ItemType "directory" -Path $GitLocation
     # Create a dummy file in .git directory
-    New-Item -ItemType "file" -Path ".git/test.txt"
-    $GitPath = Join-Path -Path $Location -ChildPath ".git"
-    Test-Path -Path $GitPath | Should -Be $true
+    New-Item -ItemType "file" -Path $TestFileLocation
+    Test-Path -Path $GitLocation | Should -Be $true
     # This should remove the dummy .git directory
-    Remove-NonReleaseFiles -RootFolderName $Location
-    Test-Path -Path $GitPath | Should -Be $false
+    Remove-NonReleaseFiles -RootFolderName $TempLocation
+    Test-Path -Path $GitLocation | Should -Be $false
   }
 }
 
