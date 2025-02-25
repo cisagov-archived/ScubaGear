@@ -15,7 +15,7 @@ BeforeAll {
 Describe "Remove-NonReleaseFiles" {
   It "removes the files in the .git folder" {
     Test-Path .git | Should -Be $true
-    Remove-NonReleaseFiles
+    Remove-NonReleaseFiles -RootFolderName .
     Test-Path .git | Should -Be $false
   }
 }
