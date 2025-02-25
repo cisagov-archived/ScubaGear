@@ -141,7 +141,7 @@ function Publish-ScubaGearModule {
     -ModuleTempPath $env:TEMP
 
     Write-Output "Editing the manifest file..."
-    $ModuleVersion = Edit-ManifestFile `
+    Edit-ManifestFile `
     -ModuleDestinationPath $ModuleDestinationPath `
     -OverrideModuleVersion $OverrideModuleVersion `
     -PrereleaseTag $PrereleaseTag
