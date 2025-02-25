@@ -20,7 +20,7 @@ Describe "Remove-NonReleaseFiles" {
     New-Item -ItemType "directory" -Path ".git"
     # Create a dummy file in .git directory
     New-Item -ItemType "file" -Path ".git/test.txt"
-    $GitPath Join-Path -Path $Location -ChildPath ".git"
+    $GitPath = Join-Path -Path $Location -ChildPath ".git"
     Test-Path -Path $GitPath | Should -Be $true
     # This should remove the dummy .git directory
     Remove-NonReleaseFiles -RootFolderName $Location
