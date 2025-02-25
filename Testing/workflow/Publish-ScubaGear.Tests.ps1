@@ -26,9 +26,11 @@ Describe "Remove-NonReleaseFiles" {
     $global:ModuleDestinationPath = Copy-ModuleToTempLocation `
       -ModuleSourcePath $ModuleSourcePath `
       -ModuleTempPath $TheTempLocation
-    Test-Path -Path $TheTempLocation .git | Should -Be $true
+    $GitPath = Join-Path -Path $TheTempLocation -ChildPath ".git"
+    Write-Warning "The git location is $GitPath"
+    Test-Path -Path $GitPath | Should -Be $true
     Remove-NonReleaseFiles -RootFolderName $TheTempLocation
-    Test-Path -Path $TheTempLocation .git | Should -Be $false
+    Test-Path -Path $GitPath | Should -Be $false
   }
 }
 
