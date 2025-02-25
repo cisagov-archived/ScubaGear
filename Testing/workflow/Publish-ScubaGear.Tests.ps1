@@ -16,20 +16,14 @@ Describe "Remove-NonReleaseFiles" {
   It "removes the files in the .git folder" {
     $Location = Get-Location
     Write-Warning "The location is $Location"
-    # Write-Warning "Listing all files here:"
-    # Get-ChildItem -Path $Location -Force
-    $ModuleSourcePath = Join-Path -Path $Location -ChildPath "/PowerShell/ScubaGear"
-    # Write-Warning "The module location is $ModuleSourcePath"
-    $TheTempLocation = $env:TEMP
-    Write-Warning "The temp location is $TheTempLocation"
-    # This should copy the module to the temp location.
-    $global:ModuleDestinationPath = Copy-ModuleToTempLocation `
-      -ModuleSourcePath $ModuleSourcePath `
-      -ModuleTempPath $TheTempLocation
-    $GitPath = Join-Path -Path $TheTempLocation -ChildPath ".git"
-    Write-Warning "The git location is $GitPath"
+    # Create a dummy .git directory
+    New-Item -ItemType "directory" -Path ".git"
+    # Create a dummy file in .git directory
+    New-Item -ItemType "file" -Path ".git/test.txt"
+    $GitPath Join-Path -Path $Location -ChildPath ".git"
     Test-Path -Path $GitPath | Should -Be $true
-    Remove-NonReleaseFiles -RootFolderName $TheTempLocation
+    # This should remove the dummy .git directory
+    Remove-NonReleaseFiles -RootFolderName $Location
     Test-Path -Path $GitPath | Should -Be $false
   }
 }
