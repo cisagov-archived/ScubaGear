@@ -36,12 +36,3 @@ Describe "PowerShell Modules Check" {
     }
   }
 }
-
-# Describe "ScubaGear Version Check" {
-#   It "The Correct Version Should be Printed" {
-#     $ManifestFilePath = Join-Path -Path "PowerShell\ScubaGear" -ChildPath "ScubaGear.psd1"
-#     $ExpectedVersion = (Import-PowerShellDataFile $ManifestFilePath).ModuleVersion
-#     $ActualVersion = Invoke-SCuBA -Version
-#     $ActualVersion.StartWith($ExpectedVersion) | Should -Be $true
-#   }
-# }
