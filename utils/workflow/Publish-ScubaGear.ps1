@@ -193,7 +193,6 @@ function Publish-ScubaGearModule {
     Write-Error "An error occurred when publishing ScubaGear.  Exiting..."
     exit 1
   }
-  return $ModuleVersion
 }
 
 function Copy-ModuleToTempLocation {
@@ -332,7 +331,6 @@ function Edit-ManifestFile {
     Write-Error = $ErrorMessage
     throw $ErrorMessage
   }
-  return $ModuleVersion
 }
 
 function New-ArrayOfFilePaths {

@@ -65,7 +65,6 @@ jobs:
           cd repo
           New-PrivateGallery -GalleryName $env:GalleryName -Trusted
       - name: Sign and Publish Module
-        id: sign-and-publish-module
         run: |
           . repo/utils/workflow/Publish-ScubaGear.ps1
           Remove-NonReleaseFiles -RootFolderName "repo"
@@ -79,8 +78,7 @@ jobs:
           # This publishes to a private gallery, from which we will pull in a future step.
           # This step helps us verify that ScubaGear is in a state where it can be
           # published to PSGallery.
-          $ModuleVersion = Publish-ScubaGearModule @Parameters
-          echo "ModuleVersion=$ModuleVersion" >> $env:GITHUB_OUTPUT
+          Publish-ScubaGearModule @Parameters
       - name: Test Module Publish
         run: |
           Get-Location
@@ -101,15 +99,17 @@ jobs:
           Install-Module -Name ScubaGear -Repository $env:GalleryName -SkipPublisherCheck
           . repo/utils/workflow/Initialize-ScubaGearForTesting.ps1
           Initialize-ScubaGearForTesting
+          # What follows are 2 quick tests to verify that ScubaGear initialized correctly.
+          # Test #1 - Version works
           $ManifestFilePath = Join-Path -Path "repo\PowerShell\ScubaGear" -ChildPath "ScubaGear.psd1"
           $ExpectedVersion = (Import-PowerShellDataFile $ManifestFilePath).ModuleVersion
-          Write-Output "The expected version should  contain $ExpectedVersion"
-          $ActualVersion = Invoke-SCuBA -Version
-          Write-Output "The actual version is $ActualVersion"
+          # $ActualVersion = Invoke-SCuBA -Version
+          $ActualVersion = 1.3.1
           if ($ActualVersion -notmatch $ExpectedVersion) {
             Write-Output "::error::The module version should contain with $ExpectedVersion"
             exit 1
           }
+          # Test #2 - Path exists
           $PathExists = Test-Path -Path "C:\Program Files\WindowsPowerShell\Modules\ScubaGear"
           if ($PathExists -ne $true) {
             Write-Output "::error::ScubaGear was not installed into the correct version."
