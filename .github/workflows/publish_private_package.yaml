@@ -103,8 +103,7 @@ jobs:
           # Test #1 - Version works
           $ManifestFilePath = Join-Path -Path "repo\PowerShell\ScubaGear" -ChildPath "ScubaGear.psd1"
           $ExpectedVersion = (Import-PowerShellDataFile $ManifestFilePath).ModuleVersion
-          # $ActualVersion = Invoke-SCuBA -Version
-          $ActualVersion = 1.3.1
+          $ActualVersion = Invoke-SCuBA -Version
           if ($ActualVersion -notmatch $ExpectedVersion) {
             Write-Output "::error::The module version should contain with $ExpectedVersion"
             exit 1
